@@ -4,7 +4,7 @@ Minimal Node.js Docker Images
 Versions v8.4.0, v6.11.2, v4.8.4, v0.12.18 and v0.10.48 –
 built on [Alpine Linux](https://alpinelinux.org/).
 
-All versions use the one [mhart/alpine-node](https://hub.docker.com/r/mhart/alpine-node/) repository,
+All versions use the one [gonzalovazquez/alpine-node](https://hub.docker.com/r/mhart/alpine-node/) repository,
 but each version aligns with the following tags (ie, `mhart/alpine-node:<tag>`). The sizes are for the
 *unpacked* images as reported by Docker – compressed sizes are about 1/3 of these:
 
@@ -22,28 +22,28 @@ but each version aligns with the following tags (ie, `mhart/alpine-node:<tag>`).
   - `base-0.12`, `base-0.12.18` – 24.72 MB
   - `base-0.10`, `base-0.10.48` – 18.22 MB
 
-Major io.js versions [are tagged too](https://hub.docker.com/r/mhart/alpine-node/tags/).
+Major io.js versions [are tagged too](https://hub.docker.com/r/gonzalovazquez/alpine-node/tags/).
 
 Examples
 --------
 
 ```console
-$ docker run mhart/alpine-node node --version
+$ docker run gonzalovazquez/alpine-node node --version
 v8.4.0
 
-$ docker run mhart/alpine-node npm --version
+$ docker run gonzalovazquez/alpine-node npm --version
 5.3.0
 
-$ docker run mhart/alpine-node yarn --version
+$ docker run gonzalovazquez/alpine-node yarn --version
 0.27.5
 
-$ docker run mhart/alpine-node:6 node --version
+$ docker run gonzalovazquez/alpine-node:6 node --version
 v6.11.2
 
-$ docker run mhart/alpine-node:base node --version
+$ docker run gonzalovazquez/alpine-node:base node --version
 v8.4.0
 
-$ docker run mhart/alpine-node:base-0.10 node --version
+$ docker run gonzalovazquez/alpine-node:base-0.10 node --version
 v0.10.48
 ```
 
@@ -57,7 +57,7 @@ Assuming you're doing your `npm install` or `yarn install` from your
 Here's a typical example using a "full install" image:
 
 ```Dockerfile
-FROM mhart/alpine-node:8
+FROM gonzalovazquez/alpine-node:8
 
 WORKDIR /app
 COPY . .
@@ -78,13 +78,13 @@ this can reduce the size of your final image by ~35MB or so.
 
 ```Dockerfile
 # Do the npm install or yarn install in the full image
-FROM mhart/alpine-node:8
+FROM gonzalovazquez/alpine-node:8
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install --production
 
 # And then copy over node_modules, etc from that stage to the smaller base image
-FROM mhart/alpine-node:base-8
+FROM gonzalovazquez/alpine-node:base-8
 WORKDIR /app
 COPY --from=0 /app .
 COPY . .
@@ -101,7 +101,7 @@ node binary and libstdc++ libraries from the full image onto a straight alpine
 image:
 
 ```Dockerfile
-FROM mhart/alpine-node:8
+FROM gonzalovazquez/alpine-node:8
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install --production
